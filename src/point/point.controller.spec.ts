@@ -33,59 +33,77 @@ describe('PointController', () => {
   });
 
   describe('point', () => {
-    it('서비스 레이어에서 정상적인 값을 반환하면 성공한다.', async () => {
-      const validId = 1;
-      const expectedResult = { id: 1, point: 1, updateMillis: Date.now() };
+    describe('point 함수가 실패한다.', () => {
+      // ID가 숫자로 변환되지 않을 경우 BadRequestException을 발생시켜야 한다.
+      it('id가 숫자가 아니면 실패한다.', async () => {
+        const invalidId = '숫자형으로 바꿀 수 없습니다.';
+        const result = pointController.point(invalidId);
 
-      pointService.point.mockResolvedValue(expectedResult);
+        await expect(result).rejects.toBeInstanceOf(BadRequestException);
+      });
 
-      const result = await pointController.point(validId);
+      // ID가 0 이하일 경우 BadRequestException을 발생시켜야 한다.
+      it('id가 0보다 작으면 실패한다.', async () => {
+        const invalidId = 0;
+        const result = pointController.point(invalidId);
 
-      expect(result).toEqual(expectedResult);
-      expect(pointService.point).toHaveBeenCalledWith(1);
+        await expect(result).rejects.toBeInstanceOf(BadRequestException);
+      });
+
+      // ID가 undefined일 경우 BadRequestException을 발생시켜야 한다.
+      it('id가 undefined이면 실패한다.', async () => {
+        const invalidId = undefined;
+        const result = pointController.point(invalidId);
+
+        await expect(result).rejects.toBeInstanceOf(BadRequestException);
+      });
+
+      // ID가 null일 경우 BadRequestException을 발생시켜야 한다.
+      it('id가 null이면 실패한다.', async () => {
+        const invalidId = null;
+        const result = pointController.point(invalidId);
+
+        await expect(result).rejects.toBeInstanceOf(BadRequestException);
+      });
+
+      // PointService.point 에서 반환하는 값이 비어있으면 InternalServerErrorException을 발생시켜야 한다.
+      it('서비스 레이어의 포인트 함수에서 반환하는 값이 비어있으면 실패한다.', async () => {
+        const validId = '1';
+
+        pointService.point.mockResolvedValue(null);
+
+        const result = pointController.point(validId);
+
+        await expect(result).rejects.toBeInstanceOf(
+          InternalServerErrorException,
+        );
+      });
     });
 
-    // ID가 숫자로 변환되지 않을 경우 BadRequestException을 발생시켜야 한다.
-    it('id가 숫자가 아니면 실패한다.', async () => {
-      const invalidId = '숫자형으로 바꿀 수 없습니다.';
-      const result = pointController.point(invalidId);
+    describe('point 함수가 성공한다.', () => {
+      // 서비스 레이어의 Point 함수가 정상적인 값을 반환 시, 컨트롤러의 Point 함수가 해당 값을 올바르게 반환하는지 확인합니다.
+      it('서비스 레이어에서 정상적인 값을 반환하면 성공한다.', async () => {
+        const validId = 1;
+        const expectedResult = { id: 1, point: 1, updateMillis: Date.now() };
 
-      await expect(result).rejects.toBeInstanceOf(BadRequestException);
-    });
+        pointService.point.mockResolvedValue(expectedResult);
 
-    // ID가 0 이하일 경우 BadRequestException을 발생시켜야 한다.
-    it('id가 0보다 작으면 실패한다.', async () => {
-      const invalidId = 0;
-      const result = pointController.point(invalidId);
+        const result = await pointController.point(validId);
 
-      await expect(result).rejects.toBeInstanceOf(BadRequestException);
-    });
+        expect(result).toEqual(expectedResult);
+      });
 
-    // ID가 undefined일 경우 BadRequestException을 발생시켜야 한다.
-    it('id가 undefined이면 실패한다.', async () => {
-      const invalidId = undefined;
-      const result = pointController.point(invalidId);
+      //컨트롤러가 서비스 레이어의 point함수에 올바른 파라미터를 전달하여 호출하는지 확인합니다.
+      it('서비스 레이어의 point 함수가 올바르게 호출되는지 확인한다.', async () => {
+        const validId = 1;
+        const expectedResult = { id: 1, point: 1, updateMillis: Date.now() };
 
-      await expect(result).rejects.toBeInstanceOf(BadRequestException);
-    });
+        pointService.point.mockResolvedValue(expectedResult);
 
-    // ID가 null일 경우 BadRequestException을 발생시켜야 한다.
-    it('id가 null이면 실패한다.', async () => {
-      const invalidId = null;
-      const result = pointController.point(invalidId);
+        await pointController.point(validId);
 
-      await expect(result).rejects.toBeInstanceOf(BadRequestException);
-    });
-
-    // PointService.point 에서 반환하는 값이 비어있으면 InternalServerErrorException을 발생시켜야 한다.
-    it('서비스 레이어의 포인트 함수에서 반환하는 값이 비어있으면 실패한다.', async () => {
-      const validId = '1';
-
-      pointService.point.mockResolvedValue(null);
-
-      const result = pointController.point(validId);
-
-      await expect(result).rejects.toBeInstanceOf(InternalServerErrorException);
+        expect(pointService.point).toHaveBeenCalledWith(1);
+      });
     });
   });
 });
