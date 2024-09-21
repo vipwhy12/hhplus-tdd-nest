@@ -27,7 +27,6 @@ export class PointController {
   async point(@Param('id') id): Promise<UserPoint> {
     const userId = Number.parseInt(id);
     return this.pointService.point(userId);
-    // return { id: userId, point: 0, updateMillis: Date.now() };
   }
 
   /**
@@ -36,7 +35,7 @@ export class PointController {
   @Get(':id/histories')
   async history(@Param('id') id): Promise<PointHistory[]> {
     const userId = Number.parseInt(id);
-    return [];
+    return this.pointService.history(userId);
   }
 
   /**
