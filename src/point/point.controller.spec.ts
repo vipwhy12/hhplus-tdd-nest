@@ -33,6 +33,18 @@ describe('PointController', () => {
   });
 
   describe('point', () => {
+    it('서비스 레이어에서 정상적인 값을 반환하면 성공한다.', async () => {
+      const validId = 1;
+      const expectedResult = { id: 1, point: 1, updateMillis: Date.now() };
+
+      pointService.point.mockResolvedValue(expectedResult);
+
+      const result = await pointController.point(validId);
+
+      expect(result).toEqual(expectedResult);
+      expect(pointService.point).toHaveBeenCalledWith(1);
+    });
+
     // ID가 숫자로 변환되지 않을 경우 BadRequestException을 발생시켜야 한다.
     it('id가 숫자가 아니면 실패한다.', async () => {
       const invalidId = '숫자형으로 바꿀 수 없습니다.';
@@ -66,7 +78,7 @@ describe('PointController', () => {
     });
 
     // PointService.point 에서 반환하는 값이 비어있으면 InternalServerErrorException을 발생시켜야 한다.
-    it('서비스 레이어에서 반환하는 값이 비어있으면 실패한다.', async () => {
+    it('서비스 레이어의 포인트 함수에서 반환하는 값이 비어있으면 실패한다.', async () => {
       const validId = '1';
 
       pointService.point.mockResolvedValue(null);
