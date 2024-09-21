@@ -30,10 +30,7 @@ describe('PointController', () => {
   });
 
   describe('point', () => {
-    /**
-     * 클라이언트가 숫자로 변환할 수 없는 문자열을 ID로 전달했을 때,
-     * 컨트롤러가 올바르게 BadRequestException을 발생시키는지 확인합니다.
-     */
+    // ID가 숫자로 변환되지 않을 경우 BadRequestException을 발생시켜야 한다.
     it('id가 숫자가 아니면 실패한다.', async () => {
       const invalidId = '숫자형으로 바꿀 수 없습니다.';
       const result = pointController.point(invalidId);
@@ -41,10 +38,7 @@ describe('PointController', () => {
       await expect(result).rejects.toBeInstanceOf(BadRequestException);
     });
 
-    /**
-     * 클라이언트가 숫자로 변환할 수 없는 문자열을 ID로 전달했을 때,
-     * 컨트롤러가 올바르게 BadRequestException을 발생시키는지 확인합니다.
-     */
+    // ID가 0 이하일 경우 BadRequestException을 발생시켜야 한다.
     it('id가 0보다 작으면 실패한다.', async () => {
       const invalidId = 0;
       const result = pointController.point(invalidId);
@@ -52,10 +46,7 @@ describe('PointController', () => {
       await expect(result).rejects.toBeInstanceOf(BadRequestException);
     });
 
-    /**
-     * 클라이언트가 ID로 undefined를 전달했을 때,
-     * 컨트롤러가 올바르게 BadRequestException을 발생시키는지 확인하는 테스트입니다.
-     */
+    // ID가 undefined일 경우 BadRequestException을 발생시켜야 한다.
     it('id가 undefined이면 실패한다.', async () => {
       const invalidId = undefined;
       const result = pointController.point(invalidId);
@@ -63,10 +54,7 @@ describe('PointController', () => {
       await expect(result).rejects.toBeInstanceOf(BadRequestException);
     });
 
-    /**
-     * 클라이언트가 ID로 null을 전달했을 때,
-     * 컨트롤러가 올바르게 BadRequestException을 발생시키는지 확인하는 테스트입니다.
-     */
+    // ID가 null일 경우 BadRequestException을 발생시켜야 한다.
     it('id가 null이면 실패한다.', async () => {
       const invalidId = null;
       const result = pointController.point(invalidId);
