@@ -5,10 +5,7 @@ import { PointHistoryTable } from 'src/database/pointhistory.table';
 
 @Injectable()
 export class PointService {
-  constructor(
-    private readonly userDb: UserPointTable,
-    private readonly historyDb: PointHistoryTable,
-  ) {}
+  constructor() {} // private readonly historyDb: PointHistoryTable, // private readonly userDb: UserPointTable,
 
   //TODO - 특정 유저의 포인트를 조회하는 기능을 작성해주세요.
   async point(id: number): Promise<UserPoint> {
