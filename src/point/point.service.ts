@@ -15,4 +15,9 @@ export class PointService {
     console.log(id);
     return [];
   }
+
+  //TODO - 특정 유저의 포인트를 충전하는 기능을 작성해주세요.
+  async charge(id: number, amount: number): Promise<UserPoint> {
+    return { id, point: amount, updateMillis: Date.now() };
+  }
 }
