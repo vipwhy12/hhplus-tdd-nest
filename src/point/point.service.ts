@@ -1,9 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { PointHistory, UserPoint } from './point.model';
+import { UserPointTable } from 'src/database/userpoint.table';
+import { PointHistoryTable } from 'src/database/pointhistory.table';
 
 @Injectable()
 export class PointService {
-  constructor() {}
+  constructor(
+    private readonly userDb: UserPointTable,
+    private readonly historyDb: PointHistoryTable,
+  ) {}
 
   //TODO - 특정 유저의 포인트를 조회하는 기능을 작성해주세요.
   async point(id: number): Promise<UserPoint> {
@@ -18,6 +23,11 @@ export class PointService {
 
   //TODO - 특정 유저의 포인트를 충전하는 기능을 작성해주세요.
   async charge(id: number, amount: number): Promise<UserPoint> {
+    return { id, point: amount, updateMillis: Date.now() };
+  }
+
+  //TODO - 특정 유저의 포인트를 사용하는 기능을 작성해주세요.
+  async use(id: number, amount: number): Promise<UserPoint> {
     return { id, point: amount, updateMillis: Date.now() };
   }
 }
