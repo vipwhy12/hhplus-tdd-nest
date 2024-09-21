@@ -1,3 +1,4 @@
+import { PointService } from './point.service';
 import {
   Body,
   Controller,
@@ -16,6 +17,7 @@ export class PointController {
   constructor(
     private readonly userDb: UserPointTable,
     private readonly historyDb: PointHistoryTable,
+    private pointService: PointService,
   ) {}
 
   /**
@@ -24,7 +26,8 @@ export class PointController {
   @Get(':id')
   async point(@Param('id') id): Promise<UserPoint> {
     const userId = Number.parseInt(id);
-    return { id: userId, point: 0, updateMillis: Date.now() };
+    return this.pointService.point(userId);
+    // return { id: userId, point: 0, updateMillis: Date.now() };
   }
 
   /**
