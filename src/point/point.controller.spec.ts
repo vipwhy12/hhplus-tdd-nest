@@ -2,7 +2,10 @@ import { PointService } from './point.service';
 import { PointController } from './point.controller';
 import { Test, TestingModule } from '@nestjs/testing';
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
-import { BadRequestException } from '@nestjs/common';
+import {
+  BadRequestException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 
 describe('PointController', () => {
   let pointController: PointController;
@@ -60,6 +63,17 @@ describe('PointController', () => {
       const result = pointController.point(invalidId);
 
       await expect(result).rejects.toBeInstanceOf(BadRequestException);
+    });
+
+    // PointService.point 에서 반환하는 값이 비어있으면 InternalServerErrorException을 발생시켜야 한다.
+    it('서비스 레이어에서 반환하는 값이 비어있으면 실패한다.', async () => {
+      const validId = '1';
+
+      pointService.point.mockResolvedValue(null);
+
+      const result = pointController.point(validId);
+
+      await expect(result).rejects.toBeInstanceOf(InternalServerErrorException);
     });
   });
 });
