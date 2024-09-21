@@ -40,5 +40,16 @@ describe('PointController', () => {
 
       await expect(result).rejects.toBeInstanceOf(BadRequestException);
     });
+
+    /**
+     * 클라이언트가 숫자로 변환할 수 없는 문자열을 ID로 전달했을 때,
+     * 컨트롤러가 올바르게 BadRequestException을 발생시키는지 확인합니다.
+     */
+    it('id가 0보다 작으면 실패한다.', async () => {
+      const invalidId = 0;
+      const result = pointController.point(invalidId);
+
+      await expect(result).rejects.toBeInstanceOf(BadRequestException);
+    });
   });
 });
