@@ -53,12 +53,22 @@ describe('PointController', () => {
     });
 
     /**
-     *
      * 클라이언트가 ID로 undefined를 전달했을 때,
      * 컨트롤러가 올바르게 BadRequestException을 발생시키는지 확인하는 테스트입니다.
      */
     it('id가 undefined이면 실패한다.', async () => {
       const invalidId = undefined;
+      const result = pointController.point(invalidId);
+
+      await expect(result).rejects.toBeInstanceOf(BadRequestException);
+    });
+
+    /**
+     * 클라이언트가 ID로 null을 전달했을 때,
+     * 컨트롤러가 올바르게 BadRequestException을 발생시키는지 확인하는 테스트입니다.
+     */
+    it('id가 null이면 실패한다.', async () => {
+      const invalidId = null;
       const result = pointController.point(invalidId);
 
       await expect(result).rejects.toBeInstanceOf(BadRequestException);
