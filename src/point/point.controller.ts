@@ -19,6 +19,12 @@ export class PointController {
    */
   @Get(':id')
   async point(@Param('id') id): Promise<UserPoint> {
+    /**
+     * 1. 아이디 파라미터를 넘겨 받는다.
+     * 2. 아이디 파라미터를 검증한다.
+     * 3. 서비스 레이어로 아이디를 넘겨준다.
+     * 4. 서비스 레이어에서 반환값을 받아 리턴한다.
+     */
     const userId = Number.parseInt(id);
     return this.pointService.point(userId);
   }
