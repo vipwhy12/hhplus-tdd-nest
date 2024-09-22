@@ -4,6 +4,7 @@ import {
   Controller,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   ValidationPipe,
 } from '@nestjs/common';
@@ -14,19 +15,9 @@ import { PointBody as PointDto } from './point.dto';
 export class PointController {
   constructor(private readonly pointService: PointService) {}
 
-  /**
-   * TODO - 특정 유저의 포인트를 조회하는 기능을 작성해주세요.
-   */
   @Get(':id')
-  async point(@Param('id') id): Promise<UserPoint> {
-    /**
-     * 1. 아이디 파라미터를 넘겨 받는다.
-     * 2. 아이디 파라미터를 검증한다.
-     * 3. 서비스 레이어로 아이디를 넘겨준다.
-     * 4. 서비스 레이어에서 반환값을 받아 리턴한다.
-     */
-    const userId = Number.parseInt(id);
-    return this.pointService.point(userId);
+  async point(@Param('id', ParseIntPipe) id: number): Promise<UserPoint> {
+    return this.pointService.point(id);
   }
 
   /**
