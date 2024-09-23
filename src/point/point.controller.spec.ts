@@ -2,10 +2,12 @@ import { PointService } from './point.service';
 import { PointController } from './point.controller';
 import { Test, TestingModule } from '@nestjs/testing';
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
+// import { UserPointTable } from '../database/userpoint.table';
 
 describe('PointController', () => {
   let pointController: PointController;
   let pointService: DeepMocked<PointService>;
+  // let userPointTable: DeepMocked<UserPointTable>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -15,11 +17,16 @@ describe('PointController', () => {
           provide: PointService,
           useValue: createMock<PointService>(),
         },
+        // {
+        //   provide: UserPointTable,
+        //   useValue: createMock<UserPointTable>(),
+        // },
       ],
     }).compile();
 
     pointController = module.get<PointController>(PointController);
     pointService = module.get(PointService);
+    // userPointTable = module.get(UserPointTable);
   });
 
   describe('point 조회시,', () => {
