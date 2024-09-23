@@ -17,7 +17,7 @@ export class PointController {
 
   @Get(':id')
   async point(@Param('id', ParseUserIdPipe) id: number): Promise<UserPoint> {
-    return this.pointService.point(id);
+    return this.pointService.getPointById(id);
   }
 
   /**

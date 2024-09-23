@@ -2,12 +2,10 @@ import { PointService } from './point.service';
 import { PointController } from './point.controller';
 import { Test, TestingModule } from '@nestjs/testing';
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
-// import { UserPointTable } from '../database/userpoint.table';
 
 describe('PointController', () => {
   let pointController: PointController;
   let pointService: DeepMocked<PointService>;
-  // let userPointTable: DeepMocked<UserPointTable>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -17,16 +15,11 @@ describe('PointController', () => {
           provide: PointService,
           useValue: createMock<PointService>(),
         },
-        // {
-        //   provide: UserPointTable,
-        //   useValue: createMock<UserPointTable>(),
-        // },
       ],
     }).compile();
 
     pointController = module.get<PointController>(PointController);
     pointService = module.get(PointService);
-    // userPointTable = module.get(UserPointTable);
   });
 
   describe('point 조회시,', () => {
@@ -36,12 +29,12 @@ describe('PointController', () => {
 
       // 유효하지 않은 ID로 조회할 때, 컨트롤러는 서비스가 던지는 에러를 그대로 반환하는지 테스트합니다.
       it('실패 응답을 반환한다.', async () => {
-        pointService.point.mockRejectedValue(new Error(errorMessage));
+        pointService.getPointById.mockRejectedValue(new Error(errorMessage));
 
         await expect(pointController.point(invalidId)).rejects.toThrowError(
           errorMessage,
         );
-        expect(pointService.point).toHaveBeenCalledWith(invalidId);
+        expect(pointService.getPointById).toHaveBeenCalledWith(invalidId);
       });
     });
 
@@ -51,12 +44,12 @@ describe('PointController', () => {
 
       // 유효한 ID로 조회할 때, 컨트롤러는 서비스가 던지는 응답을 그대로 반환하는지 테스트 합니다.
       it('성공 응답을 반환한다.', async () => {
-        pointService.point.mockResolvedValue(expectedResult);
+        pointService.getPointById.mockResolvedValue(expectedResult);
 
         const result = await pointController.point(validId);
 
         expect(result).toEqual(expectedResult);
-        expect(pointService.point).toHaveBeenCalledWith(validId);
+        expect(pointService.getPointById).toHaveBeenCalledWith(validId);
       });
     });
   });
