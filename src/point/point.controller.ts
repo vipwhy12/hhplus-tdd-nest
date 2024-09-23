@@ -4,19 +4,19 @@ import {
   Controller,
   Get,
   Param,
-  ParseIntPipe,
   Patch,
   ValidationPipe,
 } from '@nestjs/common';
-import { PointHistory, TransactionType, UserPoint } from './point.model';
+import { PointHistory, UserPoint } from './point.model';
 import { PointBody as PointDto } from './point.dto';
+import { ParseUserIdPipe } from '../pipes/parse.user.id.pipe';
 
 @Controller('/point')
 export class PointController {
   constructor(private readonly pointService: PointService) {}
 
   @Get(':id')
-  async point(@Param('id', ParseIntPipe) id: number): Promise<UserPoint> {
+  async point(@Param('id', ParseUserIdPipe) id: number): Promise<UserPoint> {
     return this.pointService.point(id);
   }
 
