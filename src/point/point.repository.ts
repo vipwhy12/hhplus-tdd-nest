@@ -10,6 +10,10 @@ export class PointRepository {
   ) {}
 
   async getPointById(id: number) {
-    return this.userDb.selectById(id);
+    return await this.userDb.selectById(id);
+  }
+
+  async getHistoryId(id: number) {
+    return await this.historydb.selectAllByUserId(id);
   }
 }
