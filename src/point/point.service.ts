@@ -1,13 +1,12 @@
+import { PointRepository } from './point.repository';
 import { Injectable } from '@nestjs/common';
 import { PointHistory, UserPoint } from './point.model';
-import { UserPointTable } from '../database/userpoint.table';
-
 @Injectable()
 export class PointService {
-  constructor(private readonly userDb: UserPointTable) {} // private readonly historyDb: PointHistoryTable, // private readonly userDb: UserPointTable,
+  constructor(private readonly pointRepository: PointRepository) {}
 
   async getPointById(id: number): Promise<UserPoint> {
-    return await this.userDb.selectById(id);
+    return await this.pointRepository.getPointById(id);
   }
 
   //TODO - 특정 유저의 포인트 충전/이용 내역을 조회하는 기능을 작성해주세요.

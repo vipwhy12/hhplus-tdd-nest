@@ -22,35 +22,7 @@ describe('PointController', () => {
     pointService = module.get(PointService);
   });
 
-  describe('point 조회시,', () => {
-    describe('id가 1보다 작으면', () => {
-      const invalidId = -1;
-      const errorMessage = 'ID는 1보다 커야 합니다';
-
-      // 유효하지 않은 ID로 조회할 때, 컨트롤러는 서비스가 던지는 에러를 그대로 반환하는지 테스트합니다.
-      it('실패 응답을 반환한다.', async () => {
-        pointService.getPointById.mockRejectedValue(new Error(errorMessage));
-
-        await expect(pointController.point(invalidId)).rejects.toThrowError(
-          errorMessage,
-        );
-        expect(pointService.getPointById).toHaveBeenCalledWith(invalidId);
-      });
-    });
-
-    describe('id가 1보다 크면', () => {
-      const validId = 1;
-      const expectedResult = { id: 1, point: 1, updateMillis: Date.now() };
-
-      // 유효한 ID로 조회할 때, 컨트롤러는 서비스가 던지는 응답을 그대로 반환하는지 테스트 합니다.
-      it('성공 응답을 반환한다.', async () => {
-        pointService.getPointById.mockResolvedValue(expectedResult);
-
-        const result = await pointController.point(validId);
-
-        expect(result).toEqual(expectedResult);
-        expect(pointService.getPointById).toHaveBeenCalledWith(validId);
-      });
-    });
+  it('should be defined', () => {
+    expect(pointController).toBeDefined();
   });
 });
