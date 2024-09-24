@@ -17,7 +17,7 @@ export class PointController {
 
   @Get(':id')
   async point(@Param('id', ParseUserIdPipe) id: number): Promise<UserPoint> {
-    return this.pointService.getPointById(id);
+    return await this.pointService.getPointById(id);
   }
 
   /**
@@ -27,7 +27,7 @@ export class PointController {
   async history(
     @Param('id', ParseUserIdPipe) id: number,
   ): Promise<PointHistory[]> {
-    return this.pointService.history(id);
+    return await this.pointService.history(id);
   }
 
   /**
