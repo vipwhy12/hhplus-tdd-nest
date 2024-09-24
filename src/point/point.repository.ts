@@ -1,11 +1,7 @@
-import {
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UserPointTable } from '../database/userpoint.table';
 import { PointHistoryTable } from '../database/pointhistory.table';
-import { PointHistory, UserPoint } from './point.model';
+import { PointHistory, TransactionType, UserPoint } from './point.model';
 
 @Injectable()
 export class PointRepository {
@@ -20,5 +16,23 @@ export class PointRepository {
 
   async getHistoryId(id: number): Promise<PointHistory[]> {
     return await this.historydb.selectAllByUserId(id);
+  }
+
+  async setHisotryId(
+    id: number,
+    amout: number,
+    transactionType: TransactionType,
+    updateMillis: number,
+  ) {
+    return await this.historydb.insert(
+      id,
+      amout,
+      transactionType,
+      updateMillis,
+    );
+  }
+
+  async charge(id: number, amount: number): Promise<UserPoint> {
+    return await this.userDb.insertOrUpdate(id, amount);
   }
 }
