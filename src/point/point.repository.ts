@@ -32,7 +32,7 @@ export class PointRepository {
     );
   }
 
-  async charge(id: number, amount: number): Promise<UserPoint> {
+  async upsertPoint(id: number, amount: number): Promise<UserPoint> {
     return await this.userDb.insertOrUpdate(id, amount);
   }
 }
