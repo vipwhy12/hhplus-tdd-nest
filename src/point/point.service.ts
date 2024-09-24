@@ -6,6 +6,7 @@ import { PointHistory, UserPoint } from './point.model';
 export class PointService {
   constructor(private readonly pointRepository: PointRepository) {}
 
+  //TODO - Custom Error Implements
   async getPointById(id: number): Promise<UserPoint> {
     return await this.pointRepository.getPointById(id);
   }
