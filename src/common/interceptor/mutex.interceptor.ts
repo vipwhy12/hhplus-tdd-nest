@@ -17,15 +17,14 @@ export class MutexInterceptor implements NestInterceptor {
     next: CallHandler,
   ): Promise<Observable<any>> {
     console.time('요청을 시도합니다. lock을 생성합니다.!');
-    // 잠금
-    await this.mutex.lock();
+
+    await this.mutex.lock(); //잠금
 
     return next.handle().pipe(
       finalize(() => {
         console.timeEnd('요청을 시도합니다. lock을 생성합니다.!');
 
-        // 처리 후 잠금 해제
-        this.mutex.release();
+        this.mutex.release(); // 처리 후 잠금 해제
       }),
     );
   }

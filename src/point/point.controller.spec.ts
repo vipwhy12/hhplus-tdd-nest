@@ -20,7 +20,7 @@ describe('PointController', () => {
         Mutex,
         {
           provide: MutexInterceptor,
-          useValue: createMock<MutexInterceptor>(), // 인터셉터 모킹
+          useValue: createMock<MutexInterceptor>(),
         },
       ],
     }).compile();
