@@ -2,6 +2,8 @@ import { PointService } from './point.service';
 import { PointController } from './point.controller';
 import { Test, TestingModule } from '@nestjs/testing';
 import { createMock, DeepMocked } from '@golevelup/ts-jest';
+import { MutexInterceptor } from '../common/interceptor/mutex.interceptor';
+import { Mutex } from '../mutex/mutex';
 
 describe('PointController', () => {
   let pointController: PointController;
@@ -14,6 +16,11 @@ describe('PointController', () => {
         {
           provide: PointService,
           useValue: createMock<PointService>(),
+        },
+        Mutex,
+        {
+          provide: MutexInterceptor,
+          useValue: createMock<MutexInterceptor>(), // 인터셉터 모킹
         },
       ],
     }).compile();
