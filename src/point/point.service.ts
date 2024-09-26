@@ -40,7 +40,7 @@ export class PointService {
 
     const useUserPoint = await this.pointRepository.upsertPoint(
       id,
-      amount - point,
+      point - amount,
     );
 
     await this.pointRepository.setHisotryId(
