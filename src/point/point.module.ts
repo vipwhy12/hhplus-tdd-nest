@@ -3,11 +3,11 @@ import { PointController } from './point.controller';
 import { DatabaseModule } from '../database/database.module';
 import { PointService } from './point.service';
 import { PointRepository } from './point.repository';
-import { Mutex } from '../mutex/mutex';
+import { MutexModule } from '../mutex/mutex.module';
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, MutexModule],
   controllers: [PointController],
-  providers: [PointService, PointRepository, Mutex],
+  providers: [PointService, PointRepository],
 })
 export class PointModule {}
