@@ -43,9 +43,8 @@
 1. MutexInterceptor: : 요청이 들어올 때마다 하나의 요청만 처리하도록 잠금(Mutex)을 적용하여, 중복된 요청이 순차적으로 처리되게 하였습니다. 이로 인해 한 요청이 완료되기 전에는 다른 요청이 처리되지 않도록 보장하였습니다. (이후 큐로 개선)
 
 2. 동시성 통합 테스트 : 동시성 문제 해결의 정확성을 검증하기 위해 통합 테스트를 작성하였습니다. 여러 개의 충전 및 사용 요청을 동시에 보내는 시나리오에서 요청들이 순차적으로 처리되고, 그 결과가 일관되게 반영되는지를 테스트했습니다.
-   ```tsx
+```tsx
 const promise1 = request(app.getHttpServer()).patch(`/point/${userId}/charge`).send({ amount: 100 }).expect(200);
 const promise2 = request(app.getHttpServer()).patch(`/point/${userId}/charge`).send({ amount: 200 }).expect(200);
 const promise3 = request(app.getHttpServer()).patch(`/point/${userId}/charge`).send({ amount: 300 }).expect(200);
-
 ```
